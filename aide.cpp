@@ -6,6 +6,7 @@ Aide::Aide(QWidget *parent) :
     ui(new Ui::Aide)
 {
     ui->setupUi(this);
+    connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
 }
 
 Aide::~Aide()
