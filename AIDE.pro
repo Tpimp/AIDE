@@ -13,11 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        aide.cpp
+        aide.cpp \
+    newfiledialog.cpp
 
-HEADERS  += aide.h
+HEADERS  += aide.h \
+    newfiledialog.h
 
-FORMS    += aide.ui
+FORMS    += aide.ui \
+    newfiledialog.ui
 
 RESOURCES += \
     aide_resource.qrc
