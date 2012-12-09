@@ -41,6 +41,13 @@
      <iconset resource="aide_resource.qrc">
       <normaloff>:/images/images/AIDE_Button_Small.png</normaloff>:/images/images/AIDE_Button_Small.png</iconset>
     </property>
+    <widget class="QMenu" name="menuNew_File">
+     <property name="title">
+      <string>New File</string>
+     </property>
+     <addaction name="actionAssembly_x86"/>
+    </widget>
+    <addaction name="menuNew_File"/>
     <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="MenuEDIT">
@@ -81,6 +88,11 @@
   <action name="ActionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionAssembly_x86">
+   <property name="text">
+    <string>Assembly(x86)</string>
    </property>
   </action>
  </widget>
