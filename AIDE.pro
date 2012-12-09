@@ -18,3 +18,6 @@ SOURCES += main.cpp\
 HEADERS  += aide.h
 
 FORMS    += aide.ui
+
+RESOURCES += \
+    aide_resource.qrc

@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Aide</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="aide_resource.qrc">
+    <normaloff>:/images/images/AIDE_Icon_small.png</normaloff>:/images/images/AIDE_Icon_small.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -26,12 +30,16 @@
      <x>0</x>
      <y>0</y>
      <width>894</width>
-     <height>24</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="MenuAIDE">
     <property name="title">
      <string>AIDE</string>
+    </property>
+    <property name="icon">
+     <iconset resource="aide_resource.qrc">
+      <normaloff>:/images/images/AIDE_Button_Small.png</normaloff>:/images/images/AIDE_Button_Small.png</iconset>
     </property>
     <addaction name="ActionExit"/>
    </widget>
@@ -77,6 +85,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="aide_resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
