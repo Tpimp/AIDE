@@ -7,6 +7,5 @@ int main(int argc, char *argv[])
     Aide w;
     w.show();
     
-    a.exec();
-    return 1;
+    return a.exec();
 }
