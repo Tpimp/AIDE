@@ -1,0 +1,49 @@
+# Developer Notes ##
+To All Contributors,
+Below is some quick notes on using git with the AIDE project.
+
+### Common Git Commands #################################################################
+
+-- Git Clone a new copy of the master repository (From a folder not containing an "AIDE" folder) --
+`git clone git@github.com:Tpimp/AIDE.git`
+
+-- Git Update/Sync with master --
+`git pull git@github.com:Tpimp/AIDE.git`
+
+-- Git Add Changes (All) --
+`git add -A`
+
+-- Git commit all w/ a message --
+`git commit -am "Message Describing the Changes Made in this Commit"`
+
+-- Git Push committed changes to master --
+`git push git@github.com:Tpimp/AIDE.git`
+
+-- Create new branch --
+`git branch "new_branch_name"`
+
+-- Switch To/Checkout Branch --
+`git checkout "new_branch_name"`
+
+-- merge Branch (current branch = source, referenced branch = destination) --
+`git merge "master"`
+
+#### Common Git practices #################################################################
+
+-- Create a New Directory --
+   * navigate to the desired parent directory
+   * run clone command (See Git Common Commands)
+
+-- Create a new feature (and branch technique. Do this for all newly created features!) --
+  * Run Sync command to update/sync your master branch
+  * create a new branch for the feature
+  * switch to the newly created branch
+  * Do <b><i>all preliminary building and work on new feature</i> (only work on new feature code here)<b>
+  * After testing the reliability of New Feature X, run merge command from new_feature branch on "master"
+  * switch to "master" branch
+  * run add all command
+  * run commit command and add a <b>
+  * run the push command
+
+-More Developer Notes to come...
+
