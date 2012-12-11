@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <newfiledialog.h>
+#include <QList>
+#include <projectfile.h>
 
 namespace Ui
 {
@@ -20,6 +22,7 @@ class Aide : public QMainWindow
     private:
         Ui::Aide *ui;
         NewFileDialog * m_NewFileDialog;
+        QList<ProjectFile *> m_OpenProjects;
 };
 
 #endif // AIDE_H

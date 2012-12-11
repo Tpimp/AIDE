@@ -6,9 +6,10 @@ NewFileDialog::NewFileDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewFileDialog)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);    // Set
     connect(ui->CreateButton,SIGNAL(clicked()),this,SLOT(createFile()));
     connect(ui->DirectoryBrowserButton,SIGNAL(clicked()),this,SLOT(findDirectory()));
+    this->setA
 }
 
 NewFileDialog::~NewFileDialog()

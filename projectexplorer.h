@@ -13,9 +13,11 @@ class ProjectExplorer : public QDockWidget
 public:
 
     explicit ProjectExplorer(QWidget *parent = 0);
+    void openProject(QString project_file = "");
     ~ProjectExplorer();
 private:
     Ui::ProjectExplorer * ui;
+
 signals:
     
 public slots:

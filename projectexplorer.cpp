@@ -10,6 +10,12 @@ ProjectExplorer::ProjectExplorer(QWidget *parent) :
                       );
 }
 
+void openProject(QString project_file)
+{
+
+
+}
+
 
 ProjectExplorer::~ProjectExplorer()
 
