@@ -2,5 +2,6 @@
     <qresource prefix="/images">
         <file>images/AIDE_Button_Small.png</file>
         <file>images/AIDE_Icon_small.png</file>
+        <file>images/new_file.png</file>
     </qresource>
 </RCC>

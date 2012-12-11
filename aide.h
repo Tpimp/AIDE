@@ -17,12 +17,13 @@ class Aide : public QMainWindow
 
     public:
         explicit Aide(QWidget *parent = 0);
+        bool addNewProject(ProjectFile * newProject);
         ~Aide();
 
     private:
         Ui::Aide *ui;
-        NewFileDialog * m_NewFileDialog;
-        QList<ProjectFile *> m_OpenProjects;
+        NewFileDialog * mNewFileDialog;
+        QList<ProjectFile *> mOpenProjects;
 };
 
 #endif // AIDE_H
