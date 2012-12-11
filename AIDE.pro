@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         aide.cpp \
     newfiledialog.cpp\
-    projectexplorer.cpp
+    projectexplorer.cpp \
+    projectfile.cpp
 
 HEADERS  += aide.h \
     newfiledialog.h \
-    projectexplorer.h
+    projectexplorer.h \
+    projectfile.h
 
 FORMS    += aide.ui \
     newfiledialog.ui \
