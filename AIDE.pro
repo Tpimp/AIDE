@@ -16,16 +16,19 @@ SOURCES += main.cpp\
         aide.cpp \
     newfiledialog.cpp\
     projectexplorer.cpp \
-    projectfile.cpp
+    projectfile.cpp \
+    editor.cpp
 
 HEADERS  += aide.h \
     newfiledialog.h \
     projectexplorer.h \
-    projectfile.h
+    projectfile.h \
+    editor.h
 
 FORMS    += aide.ui \
     newfiledialog.ui \
-    projectexplorer.ui
+    projectexplorer.ui \
+    editor.ui
 
 
 RESOURCES += \
