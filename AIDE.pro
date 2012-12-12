@@ -23,7 +23,8 @@ HEADERS  += aide.h \
     newfiledialog.h \
     projectexplorer.h \
     projectfile.h \
-    editor.h
+    editor.h \
+    file_info.h
 
 FORMS    += aide.ui \
     newfiledialog.ui \

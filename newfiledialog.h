@@ -18,6 +18,10 @@ public:
     
 private:
     Ui::NewFileDialog *ui;
+
+signals:
+    void fileAdded(QString filepath);
+
 public slots:
     void createFile();
     void findDirectory();

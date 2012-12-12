@@ -18,10 +18,41 @@
   </property>
   <widget class="QWidget" name="DockWidgetContents">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
+    <item row="1" column="0">
+     <layout class="QVBoxLayout" name="VerticalLayout">
+      <property name="spacing">
+       <number>2</number>
+      </property>
       <item>
-       <widget class="QTreeView" name="TreeView"/>
+       <widget class="QComboBox" name="ProjectSelector">
+        <item>
+         <property name="text">
+          <string>Current Project ()</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTreeWidget" name="TreeWidget">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="headerHidden">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

@@ -15,14 +15,18 @@ class ProjectExplorer : public QDockWidget
 public:
 
     explicit ProjectExplorer(QWidget *parent = 0);
+    void createEmptyProject();
     void openProject(ProjectFile * project_file = 0);
+    void addFile(QString filepath, QString type);
+    int currentProject(){return mCurrentProject;}
     ~ProjectExplorer();
 private:
     Ui::ProjectExplorer * ui;
-
+    int mCurrentProject;
 signals:
     
 public slots:
+    void setCurrentProject(int index);
     
 };
 
