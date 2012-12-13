@@ -8,9 +8,13 @@ NewFileDialog::NewFileDialog(QWidget *parent) :
     ui(new Ui::NewFileDialog)
 {
     ui->setupUi(this);    // Set
+    ui->FileNameInput->setText("<NewFile.asm>");
+    ui->LocationInput->setText(QDir::currentPath() + QDir::separator() + ui->FileNameInput->text() );
+
     connect(ui->CreateButton,SIGNAL(clicked()),this,SLOT(createFile()));
-    connect(this,SIGNAL(fileAdded(QString)),(Aide*)parent,SLOT(createFile(QString)));
+    connect(ui->CreateButton,SIGNAL(fileAdded(QString filepath)),(Aide*)parent,SLOT(createFile(QString filepath)));
     connect(ui->DirectoryBrowserButton,SIGNAL(clicked()),this,SLOT(findDirectory()));
+    connect(ui->FileNameInput, SIGNAL(textChanged(QString)), this,SLOT(setName(QString)));
 }
 
 NewFileDialog::~NewFileDialog()
@@ -18,11 +22,8 @@ NewFileDialog::~NewFileDialog()
     delete ui;
 }
 
-
-
 void NewFileDialog::createFile()
 {
-    qDebug() << ui->FileNameInput->text() << " " << ui->LocationInput->text();
     emit fileAdded(ui->LocationInput->text());
     ui->FileNameInput->clear();
     ui->LocationInput->clear();
@@ -32,10 +33,20 @@ void NewFileDialog::createFile()
 
 void NewFileDialog::findDirectory()
 {
-    QString filename = QFileDialog::getSaveFileName(this,"Save To...");
-    if(filename != "" )
+
+    QString dirPath = QFileDialog::getExistingDirectory(this,"Save To...");//QFileDialog::getSaveFileName(this,"Save To...");
+    if(dirPath != "" )
     {
-        ui->LocationInput->setText(filename);
+        ui->LocationInput->setText(dirPath + "/" +  ui->FileNameInput->text());
     }
 
+}
+
+void NewFileDialog::setName(QString newName)
+{
+    QString tmp = ui->LocationInput->text();
+    int location = tmp.lastIndexOf('/');
+    tmp = tmp.remove(location + 1, tmp.count()-1);
+    tmp += newName;
+    ui->LocationInput->setText(tmp);
 }

@@ -25,6 +25,7 @@ signals:
 public slots:
     void createFile();
     void findDirectory();
+    void setName(QString newName);
 };
 
 #endif // NEWFILEDIALOG_H
