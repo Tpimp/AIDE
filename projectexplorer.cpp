@@ -83,7 +83,7 @@ void ProjectExplorer::createEmptyProject()
     QTreeWidgetItem * codeptr = new QTreeWidgetItem(0);
     QTreeWidgetItem * otherptr = new QTreeWidgetItem(1);
     codeptr->setText(0,"Code");
-    otherptr->setText(0,"Other");
+    otherptr->setText(0,"CrapBin");
     QIcon icon(":/images/images/Open.png");
     codeptr->setIcon(0,icon);
     otherptr->setIcon(0,icon);

@@ -6,6 +6,9 @@
 #include <QList>
 #include <projectfile.h>
 #include <file_info.h>
+#include <projectexplorer.h>
+#include "editor.h"
+
 namespace Ui
 {
     class Aide;
@@ -28,6 +31,8 @@ class Aide : public QMainWindow
         NewFileDialog * mNewFileDialog;
         QList<ProjectFile *> mOpenProjects;
         QList<QStringList>   mFileTypes;   // ADD INITIALIZE FILES TYPES
+        ProjectExplorer * mProjectExplorer;
+        Editor * mEditor;
     public slots:
         void createFile(QString filepath);
 };

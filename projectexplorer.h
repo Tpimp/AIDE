@@ -3,7 +3,7 @@
 
 #include <QDockWidget>
 #include <projectfile.h>
-#include <aide.h>
+
 
 namespace Ui {
 class ProjectExplorer;

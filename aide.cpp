@@ -4,12 +4,14 @@
 
 Aide::Aide(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::Aide)
+      ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this))
 {
     ui->setupUi(this);
     mNewFileDialog = new NewFileDialog(this);
     connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
     connect(ui->ActionAssembly_x86,SIGNAL(triggered()),mNewFileDialog, SLOT(open()));
+    addDockWidget(Qt::LeftDockWidgetArea,mProjectExplorer,Qt::Vertical);
+    setCentralWidget(mEditor);
     addNewProject();
 }
 
@@ -27,7 +29,7 @@ bool Aide::addFileToProject(int project_index, FileInfo *file)
 
 void Aide::createFile(QString filepath)
 {
-
+  //  int current_project = mProjectExplorer
 }
 
 bool Aide::addNewProject(ProjectFile *newProject)
@@ -52,6 +54,8 @@ ProjectFile * Aide::getProject(int project_index)
 Aide::~Aide()
 {
     delete ui;
+    delete mEditor;
+    delete mProjectExplorer;
     int length = mOpenProjects.length();
     ProjectFile * ptr = 0;
     for(int index = 0; index < length; index++)
