@@ -12,7 +12,7 @@ NewFileDialog::NewFileDialog(QWidget *parent) :
     ui->LocationInput->setText(QDir::currentPath() + QDir::separator() + ui->FileNameInput->text() );
 
     connect(ui->CreateButton,SIGNAL(clicked()),this,SLOT(createFile()));
-    connect(ui->CreateButton,SIGNAL(fileAdded(QString filepath)),(Aide*)parent,SLOT(createFile(QString filepath)));
+    connect(this,SIGNAL(fileAdded(QString)),(Aide*)parent,SLOT(createFile(QString)));
     connect(ui->DirectoryBrowserButton,SIGNAL(clicked()),this,SLOT(findDirectory()));
     connect(ui->FileNameInput, SIGNAL(textChanged(QString)), this,SLOT(setName(QString)));
 }

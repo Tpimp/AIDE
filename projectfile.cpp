@@ -1,22 +1,24 @@
 #include "projectfile.h"
 
 ProjectFile::ProjectFile(QString filePath,QObject *parent) :
-    QObject(parent), mFile(0), mWriter(0), mReader(0), mName(""), mPath("")
+    QObject(parent), mName(""), mPath("")
 {
     mFilters.append(QString("Code"));
     mFilters.append(QString("Other"));
+    mFiles.clear();
+    int slash = filePath.lastIndexOf("/");
+    mName = filePath.section(filePath,slash);
+    mPath = filePath.remove(slash,filePath.size());
+
 
 }
-bool ProjectFile::addFile(FileInfo * file)
+void ProjectFile::addFile(FileInfo * file)
 {
-   mFiles.append(file);
+    mFiles.append(file);
 }
 
 ProjectFile::~ProjectFile()
 {
-    mFile = 0;
-    mWriter = 0;
-    mReader = 0;
     mName.clear();
     mPath.clear();
     mFilters.clear();

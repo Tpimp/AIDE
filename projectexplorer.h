@@ -17,7 +17,7 @@ public:
     explicit ProjectExplorer(QWidget *parent = 0);
     void createEmptyProject();
     void openProject(ProjectFile * project_file = 0);
-    void addFile(QString filepath, QString type);
+    FileInfo addFile(QString filepath, QString type);
     int currentProject(){return mCurrentProject;}
     ~ProjectExplorer();
 private:

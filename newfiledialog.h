@@ -20,7 +20,7 @@ private:
     Ui::NewFileDialog *ui;
 
 signals:
-    void fileAdded(QString filepath);
+    void fileAdded(QString);
 
 public slots:
     void createFile();

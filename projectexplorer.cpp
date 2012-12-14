@@ -2,7 +2,7 @@
 #include "ui_projectexplorer.h"
 #include <QTreeWidgetItem>
 ProjectExplorer::ProjectExplorer(QWidget *parent) :
-    QDockWidget(parent), ui(new Ui::ProjectExplorer)
+    QDockWidget(parent), ui(new Ui::ProjectExplorer),mCurrentProject(0)
 {
 
     ui->setupUi(this);
@@ -16,11 +16,12 @@ ProjectExplorer::ProjectExplorer(QWidget *parent) :
 }
 
 
-void ProjectExplorer::addFile(QString filepath, QString type)
+FileInfo ProjectExplorer::addFile(QString filepath, QString type)
 {
     QFile file(filepath);
     FileInfo fileinfo;
-    fileinfo.mFilename = file.fileName();
+    int sep = filepath.lastIndexOf('/');
+    fileinfo.mFilename = filepath.remove(0,sep+1);
     fileinfo.mPath = filepath;
     fileinfo.mDir = filepath;
     fileinfo.mType = type;
@@ -34,12 +35,20 @@ void ProjectExplorer::addFile(QString filepath, QString type)
     for (int index = 0; index < filters; index ++)
     {
         QTreeWidgetItem * item = ui->TreeWidget->topLevelItem(index);
-        if(type == item->text(0))
+        if(item)
         {
-            TYPEFOUND = true;
-            found_at = index;
-            parent = item;
+            if(type == item->text(0))
+            {
+                TYPEFOUND = true;
+                found_at = index;
+                parent = item;
+            }
         }
+        else
+        {
+            break;
+        }
+
     }
     if(TYPEFOUND)
     {
@@ -48,23 +57,31 @@ void ProjectExplorer::addFile(QString filepath, QString type)
         int i = 0;
         QTreeWidgetItem * child = new QTreeWidgetItem(found_at);
         child->setText(0,fileinfo.mFilename);
-        while(NOTINSERTED)
+        if(items > 0)
         {
-            if(fileinfo.mFilename.compare(parent->child(i)->text(0)) >= 0)
+            while(NOTINSERTED)
             {
-                parent->insertChild(i,child);
-                NOTINSERTED = false;
-            }
-            else
-            {
-                i ++;
-                if(i == items)
+                if(fileinfo.mFilename.compare(parent->child(i)->text(0)) >= 0)
                 {
                     parent->insertChild(i,child);
                     NOTINSERTED = false;
                 }
+                else
+                {
+                    i ++;
+                    if(i == items)
+                    {
+                        parent->insertChild(i,child);
+                        NOTINSERTED = false;
+                    }
+                }
             }
         }
+        else
+        {
+            parent->insertChild(0,child);
+        }
+
     }
     else
     {
@@ -75,6 +92,7 @@ void ProjectExplorer::addFile(QString filepath, QString type)
         child->setText(0,fileinfo.mFilename);
         parent->insertChild(0,child);
     }
+    return fileinfo;
 }
 
 void ProjectExplorer::createEmptyProject()
@@ -83,7 +101,7 @@ void ProjectExplorer::createEmptyProject()
     QTreeWidgetItem * codeptr = new QTreeWidgetItem(0);
     QTreeWidgetItem * otherptr = new QTreeWidgetItem(1);
     codeptr->setText(0,"Code");
-    otherptr->setText(0,"CrapBin");
+    otherptr->setText(0,"Other");
     QIcon icon(":/images/images/Open.png");
     codeptr->setIcon(0,icon);
     otherptr->setIcon(0,icon);

@@ -2,6 +2,7 @@
 #define FILE_INFO_H
 
 #include <QString>
+#include <QList>
 
 struct FileInfo
 {
@@ -10,6 +11,7 @@ struct FileInfo
     QString mDir;
     QString mPath;
     QString mType;
+    QList<int> mBreakpoints;
 };
 
 

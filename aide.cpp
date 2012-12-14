@@ -1,6 +1,9 @@
 #include "aide.h"
 #include "ui_aide.h"
 
+#include <QDebug>
+
+
 Aide::Aide(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this))
@@ -30,7 +33,16 @@ bool Aide::addFileToProject(int project_index, FileInfo *file)
 
 void Aide::createFile(QString filepath)
 {
-  //  int current_project = mProjectExplorer
+
+    //type = getFiletype(filepath);
+    FileInfo * file_info = new FileInfo;
+    FileInfo info = mProjectExplorer->addFile(filepath, "Code");
+    file_info->mDir = info.mDir;
+    file_info->mFilename = info.mFilename;
+    file_info->mPath = info.mPath;
+    file_info->mType = info.mType;
+    ProjectFile * current_project = mOpenProjects.at(mProjectExplorer->currentProject());
+    current_project->addFile(file_info);
 }
 
 void Aide::createProject(QString projectPath)
