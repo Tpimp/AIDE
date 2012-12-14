@@ -47,6 +47,7 @@
      </property>
      <addaction name="ActionAssembly_x86"/>
     </widget>
+    <addaction name="ActionNew_Project"/>
     <addaction name="menuNew_File"/>
     <addaction name="ActionExit"/>
    </widget>
@@ -107,6 +108,11 @@
    </property>
    <property name="text">
     <string>Assembly(x86)</string>
+   </property>
+  </action>
+  <action name="ActionNew_Project">
+   <property name="text">
+    <string>New Project</string>
    </property>
   </action>
  </widget>

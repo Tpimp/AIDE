@@ -1,15 +1,16 @@
 #include "aide.h"
 #include "ui_aide.h"
 
-
 Aide::Aide(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this))
 {
     ui->setupUi(this);
     mNewFileDialog = new NewFileDialog(this);
+    mNewProjectDialog = new NewProjectDialog(this);
     connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
     connect(ui->ActionAssembly_x86,SIGNAL(triggered()),mNewFileDialog, SLOT(open()));
+    connect(ui->ActionNew_Project,SIGNAL(triggered()),mNewProjectDialog, SLOT(open()));
     addDockWidget(Qt::LeftDockWidgetArea,mProjectExplorer,Qt::Vertical);
     setCentralWidget(mEditor);
     addNewProject();
@@ -28,6 +29,11 @@ bool Aide::addFileToProject(int project_index, FileInfo *file)
 }
 
 void Aide::createFile(QString filepath)
+{
+  //  int current_project = mProjectExplorer
+}
+
+void Aide::createProject(QString projectPath)
 {
   //  int current_project = mProjectExplorer
 }

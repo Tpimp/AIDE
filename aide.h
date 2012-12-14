@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <newfiledialog.h>
+#include <newprojectdialog.h>
 #include <QList>
 #include <projectfile.h>
 #include <file_info.h>
@@ -29,12 +30,14 @@ class Aide : public QMainWindow
     private:
         Ui::Aide *ui;
         NewFileDialog * mNewFileDialog;
+        NewProjectDialog * mNewProjectDialog;
         QList<ProjectFile *> mOpenProjects;
         QList<QStringList>   mFileTypes;   // ADD INITIALIZE FILES TYPES
         ProjectExplorer * mProjectExplorer;
         Editor * mEditor;
     public slots:
-        void createFile(QString filepath);
+        void createFile(QString filePath);
+        void createProject(QString projectPath);
 };
 
 #endif // AIDE_H
