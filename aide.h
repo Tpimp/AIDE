@@ -2,13 +2,12 @@
 #define AIDE_H
 
 #include <QMainWindow>
-#include <newfiledialog.h>
-#include <newprojectdialog.h>
 #include <QList>
 #include <projectfile.h>
 #include <file_info.h>
 #include <projectexplorer.h>
 #include "editor.h"
+#include "newdialog.h"
 
 namespace Ui
 {
@@ -29,8 +28,7 @@ class Aide : public QMainWindow
 
     private:
         Ui::Aide *ui;
-        NewFileDialog * mNewFileDialog;
-        NewProjectDialog * mNewProjectDialog;
+        NewDialog * mNewDialog;
         QList<ProjectFile *> mOpenProjects;
         QList<QStringList>   mFileTypes;   // ADD INITIALIZE FILES TYPES
         ProjectExplorer * mProjectExplorer;

@@ -41,14 +41,7 @@
      <iconset resource="aide_resource.qrc">
       <normaloff>:/images/images/AIDE_Button_Small.png</normaloff>:/images/images/AIDE_Button_Small.png</iconset>
     </property>
-    <widget class="QMenu" name="menuNew_File">
-     <property name="title">
-      <string>New File</string>
-     </property>
-     <addaction name="ActionAssembly_x86"/>
-    </widget>
-    <addaction name="ActionNew_Project"/>
-    <addaction name="menuNew_File"/>
+    <addaction name="actionNew_File_or_Project"/>
     <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="MenuEDIT">
@@ -93,7 +86,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="ActionAssembly_x86"/>
+   <addaction name="ActionNew"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="ActionExit">
@@ -101,7 +94,7 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="ActionAssembly_x86">
+  <action name="ActionNew">
    <property name="icon">
     <iconset resource="aide_resource.qrc">
      <normaloff>:/images/images/new_file.png</normaloff>:/images/images/new_file.png</iconset>
@@ -113,6 +106,11 @@
   <action name="ActionNew_Project">
    <property name="text">
     <string>New Project</string>
+   </property>
+  </action>
+  <action name="actionNew_File_or_Project">
+   <property name="text">
+    <string>New File or Project</string>
    </property>
   </action>
  </widget>

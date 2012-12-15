@@ -9,11 +9,9 @@ Aide::Aide(QWidget *parent)
       ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this))
 {
     ui->setupUi(this);
-    mNewFileDialog = new NewFileDialog(this);
-    mNewProjectDialog = new NewProjectDialog(this);
+    mNewDialog = new NewDialog;
     connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
-    connect(ui->ActionAssembly_x86,SIGNAL(triggered()),mNewFileDialog, SLOT(open()));
-    connect(ui->ActionNew_Project,SIGNAL(triggered()),mNewProjectDialog, SLOT(open()));
+    connect(ui->ActionNew,SIGNAL(triggered()),mNewDialog, SLOT(open()));
     addDockWidget(Qt::LeftDockWidgetArea,mProjectExplorer,Qt::Vertical);
     setCentralWidget(mEditor);
     addNewProject();
