@@ -3,7 +3,7 @@
 
 #include <QDockWidget>
 #include <projectfile.h>
-
+#include <QPixmap>
 
 namespace Ui {
 class ProjectExplorer;
@@ -19,6 +19,7 @@ public:
     void openProject(ProjectFile * project_file = 0);
     FileInfo addFile(QString filepath, QString type);
     int currentProject(){return mCurrentProject;}
+    QString getIcon(FileInfo fileinfo);
     ~ProjectExplorer();
 private:
     Ui::ProjectExplorer * ui;

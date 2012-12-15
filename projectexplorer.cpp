@@ -1,6 +1,7 @@
 #include "projectexplorer.h"
 #include "ui_projectexplorer.h"
 #include <QTreeWidgetItem>
+#include <QDir>
 ProjectExplorer::ProjectExplorer(QWidget *parent) :
     QDockWidget(parent), ui(new Ui::ProjectExplorer),mCurrentProject(0)
 {
@@ -29,6 +30,7 @@ FileInfo ProjectExplorer::addFile(QString filepath, QString type)
     int location = filepath.lastIndexOf('/');
     fileinfo.mDir = filepath.remove(0,location);
     int filters = ui->TreeWidget->topLevelItemCount();
+    QTreeWidgetItem * child;
     bool TYPEFOUND = false;
     int found_at = 0;
     QTreeWidgetItem * parent = 0;
@@ -55,7 +57,7 @@ FileInfo ProjectExplorer::addFile(QString filepath, QString type)
         int items = parent->childCount();
         bool NOTINSERTED = true;
         int i = 0;
-        QTreeWidgetItem * child = new QTreeWidgetItem(found_at);
+        child = new QTreeWidgetItem(found_at);
         child->setText(0,fileinfo.mFilename);
         if(items > 0)
         {
@@ -88,10 +90,13 @@ FileInfo ProjectExplorer::addFile(QString filepath, QString type)
         QTreeWidgetItem * parent = new QTreeWidgetItem(ui->TreeWidget->topLevelItemCount());
         parent->setText(0,fileinfo.mType);
         ui->TreeWidget->addTopLevelItem(parent);
-        QTreeWidgetItem * child = new QTreeWidgetItem(0);
+        child = new QTreeWidgetItem(0);
         child->setText(0,fileinfo.mFilename);
         parent->insertChild(0,child);
     }
+    QString iconpath = getIcon(fileinfo);
+    QPixmap  icon(QDir::currentPath()+iconpath);
+    child->setIcon(0,icon);
     return fileinfo;
 }
 
@@ -108,7 +113,15 @@ void ProjectExplorer::createEmptyProject()
     ui->TreeWidget->addTopLevelItem(codeptr);
     ui->TreeWidget->addTopLevelItem(otherptr);
 
+}
 
+
+QString ProjectExplorer::getIcon(FileInfo fileinfo)
+{
+    QString extension = fileinfo.mFilename.remove(0,fileinfo.mFilename.lastIndexOf(".")+1);
+    extension = extension.toLower();
+    extension += ".png";
+    return ("/images/files/" + extension);
 }
 
 void ProjectExplorer::openProject(ProjectFile * project_file)
