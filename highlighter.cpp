@@ -33,5 +33,5 @@ void Highlighter::highlightBlock(const QString &text)
             index = expression.indexIn(text, index+length);
         }
     }
-    setCurrentBlockState(0);
+    //setCurrentBlockState(0);
 }
