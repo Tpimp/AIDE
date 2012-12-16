@@ -2,6 +2,7 @@
 #define EDITOR_H
 
 #include <QWidget>
+#include <highlighter.h>
 
 namespace Ui {
 class Editor;
@@ -17,6 +18,7 @@ public:
     
 private:
     Ui::Editor *ui;
+    Highlighter * mHighlighter;
 };
 
 #endif // EDITOR_H

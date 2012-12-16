@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     projectfile.cpp \
     editor.cpp \
     newdialog.cpp\
-    syntaxfile.cpp
+    syntaxfile.cpp \
+    highlighter.cpp
 
 
 HEADERS  += aide.h \
@@ -28,7 +29,8 @@ HEADERS  += aide.h \
     file_info.h \
     newdialog.h \
     syntaxfile.h \
-    syntaxpattern.h
+    syntaxpattern.h \
+    highlighter.h
 
 
 FORMS    += aide.ui \

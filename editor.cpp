@@ -7,6 +7,11 @@ Editor::Editor(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->TabWidget->setDocumentMode(true);
+    /*needs a language parameter to pass
+    to the highlighter constructor based on
+    which file type we are editing for*/
+    //mHighlighter = new Highlighter(this.language, this);
+    mHighlighter = new Highlighter(ui->TextEdit->document());
 }
 
 

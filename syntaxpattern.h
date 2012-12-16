@@ -6,7 +6,7 @@
 
 struct SyntaxPattern
 {
-    QString
+  //  QString
 };
 
 
