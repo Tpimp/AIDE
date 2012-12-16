@@ -3,18 +3,33 @@
 
 #include <QDebug>
 
+typedef QPair<QString, QStringList > Pair;
 
 Aide::Aide(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this))
 {
     ui->setupUi(this);
-    mNewDialog = new NewDialog;
+    mNewDialog = new NewDialog(this);
     connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
     connect(ui->ActionNew,SIGNAL(triggered()),mNewDialog, SLOT(open()));
     addDockWidget(Qt::LeftDockWidgetArea,mProjectExplorer,Qt::Vertical);
     setCentralWidget(mEditor);
+    loadKnownFileTypes();
     addNewProject();
+}
+bool Aide::addNewProject(ProjectFile *newProject)
+{
+    if(newProject) // If newProject is not NULL
+    {
+        mOpenProjects.append(newProject); // add it to open project list
+    }
+    else
+    {
+        ProjectFile * ptr = new ProjectFile("",this);
+        mOpenProjects.append(ptr); // add it to open project list
+    }
+    return newProject;
 }
 
 bool Aide::addFileToProject(int project_index, FileInfo *file)
@@ -31,10 +46,11 @@ bool Aide::addFileToProject(int project_index, FileInfo *file)
 
 void Aide::createFile(QString filepath)
 {
-
+    qDebug() << "Creating file at:" << filepath;
     //type = getFiletype(filepath);
     FileInfo * file_info = new FileInfo;
-    FileInfo info = mProjectExplorer->addFile(filepath, "Code");
+    QString filter = getFilter(filepath);
+    FileInfo info = mProjectExplorer->addFile(filepath, filter);
     file_info->mDir = info.mDir;
     file_info->mFilename = info.mFilename;
     file_info->mPath = info.mPath;
@@ -48,24 +64,46 @@ void Aide::createProject(QString projectPath)
   //  int current_project = mProjectExplorer
 }
 
-bool Aide::addNewProject(ProjectFile *newProject)
+QString Aide::getFilter(QString filepath)
 {
-    if(newProject) // If newProject is not NULL
+    QString exit_str;
+    bool FOUND = false;
+    QString ext = filepath.remove(0,filepath.lastIndexOf('.')+1);
+    foreach (Pair filter, mKnownFileTypes) //Pair is a typdef see top of file
     {
-        mOpenProjects.append(newProject); // add it to open project list
+        foreach (QString type, filter.second)
+        {
+            if(type == ext)
+            {
+                exit_str = filter.first;
+                FOUND = true;
+                break;
+            }
+        }
+        if(FOUND)
+            break;
     }
-    else
-    {
-        ProjectFile * ptr = new ProjectFile("",this);
-        mOpenProjects.append(ptr); // add it to open project list
-    }
-    return newProject;
+    return exit_str;
 }
 
 ProjectFile * Aide::getProject(int project_index)
 {
     return mOpenProjects.at(project_index);
 }
+
+void Aide::loadKnownFileTypes()
+{
+    //eventually load from a file
+    QStringList types;
+    types.append("asm");
+    types.append("cpp");
+    types.append("c");
+    mKnownFileTypes.append(QPair<QString,QStringList>(QString("Code"),types));
+    types.clear();
+    types.append("txt");
+    mKnownFileTypes.append(QPair<QString,QStringList>(QString("Other"),types));
+}
+
 
 Aide::~Aide()
 {
@@ -81,3 +119,5 @@ Aide::~Aide()
     }
 
 }
+
+

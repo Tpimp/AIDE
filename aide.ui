@@ -33,15 +33,18 @@
      <height>27</height>
     </rect>
    </property>
+   <property name="nativeMenuBar">
+    <bool>false</bool>
+   </property>
    <widget class="QMenu" name="MenuAIDE">
     <property name="title">
-     <string>AIDE</string>
+     <string/>
     </property>
     <property name="icon">
      <iconset resource="aide_resource.qrc">
       <normaloff>:/images/images/AIDE_Button_Small.png</normaloff>:/images/images/AIDE_Button_Small.png</iconset>
     </property>
-    <addaction name="actionNew_File_or_Project"/>
+    <addaction name="ActionNew"/>
     <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="MenuEDIT">
@@ -99,16 +102,6 @@
     <iconset resource="aide_resource.qrc">
      <normaloff>:/images/images/new_file.png</normaloff>:/images/images/new_file.png</iconset>
    </property>
-   <property name="text">
-    <string>Assembly(x86)</string>
-   </property>
-  </action>
-  <action name="ActionNew_Project">
-   <property name="text">
-    <string>New Project</string>
-   </property>
-  </action>
-  <action name="actionNew_File_or_Project">
    <property name="text">
     <string>New File or Project</string>
    </property>

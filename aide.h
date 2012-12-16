@@ -8,6 +8,9 @@
 #include <projectexplorer.h>
 #include "editor.h"
 #include "newdialog.h"
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+
 
 namespace Ui
 {
@@ -22,7 +25,6 @@ class Aide : public QMainWindow
         explicit Aide(QWidget *parent = 0);
         bool addNewProject(ProjectFile * newProject = 0);
         bool addFileToProject(int project_index,FileInfo * file);
-
         ProjectFile * getProject(int project_index);
         ~Aide();
 
@@ -33,6 +35,9 @@ class Aide : public QMainWindow
         QList<QStringList>   mFileTypes;   // ADD INITIALIZE FILES TYPES
         ProjectExplorer * mProjectExplorer;
         Editor * mEditor;
+        QList<QPair< QString, QStringList > > mKnownFileTypes;
+        QString getFilter(QString filepath);
+        void loadKnownFileTypes();
     public slots:
         void createFile(QString filePath);
         void createProject(QString projectPath);

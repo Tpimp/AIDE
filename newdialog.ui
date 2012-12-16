@@ -39,13 +39,13 @@
     </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="DescripionLable">
+  <widget class="QLabel" name="DescripionLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>150</y>
+     <y>170</y>
      <width>361</width>
-     <height>131</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="text">
@@ -61,10 +61,10 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>729</width>
-     <height>119</height>
+     <x>8</x>
+     <y>8</y>
+     <width>781</width>
+     <height>161</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="NewItemLayout">
@@ -87,6 +87,44 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QFrame" name="ExtensionFrame">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>170</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>381</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="ExtensionLayout">
+     <item>
+      <widget class="QLabel" name="ExtensionLabel">
+       <property name="text">
+        <string>File extension(optional):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="ExtensionEdit"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources/>

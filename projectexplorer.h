@@ -3,8 +3,7 @@
 
 #include <QDockWidget>
 #include <projectfile.h>
-#include <QPixmap>
-
+#include <QIcon>
 namespace Ui {
 class ProjectExplorer;
 }
@@ -24,6 +23,7 @@ public:
 private:
     Ui::ProjectExplorer * ui;
     int mCurrentProject;
+    QIcon mFilterIcon;
 signals:
     
 public slots:

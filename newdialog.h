@@ -20,13 +20,13 @@ private:
     Ui::NewDialog *ui;
 
 signals:
-
+    void newFileCreated(QString filepath);
 
 public slots:
     void create();
     void selectProject();
     void selectFile();
-    void setDescription();
+    void setDescription(QTreeWidgetItem* current,QTreeWidgetItem* previous);
 };
 
 #endif // NEWDIALOG_H

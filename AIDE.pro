@@ -17,14 +17,19 @@ SOURCES += main.cpp\
     projectexplorer.cpp \
     projectfile.cpp \
     editor.cpp \
-    newdialog.cpp
+    newdialog.cpp\
+    syntaxfile.cpp
+
 
 HEADERS  += aide.h \
     projectexplorer.h \
     projectfile.h \
     editor.h \
     file_info.h \
-    newdialog.h
+    newdialog.h \
+    syntaxfile.h \
+    syntaxpattern.h
+
 
 FORMS    += aide.ui \
     projectexplorer.ui \

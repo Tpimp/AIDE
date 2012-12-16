@@ -3,7 +3,7 @@
 #include <QTreeWidgetItem>
 #include <QDir>
 ProjectExplorer::ProjectExplorer(QWidget *parent) :
-    QDockWidget(parent), ui(new Ui::ProjectExplorer),mCurrentProject(0)
+    QDockWidget(parent), ui(new Ui::ProjectExplorer),mCurrentProject(0), mFilterIcon(":/images/images/Open.png")
 {
 
     ui->setupUi(this);
@@ -89,6 +89,7 @@ FileInfo ProjectExplorer::addFile(QString filepath, QString type)
     {
         QTreeWidgetItem * parent = new QTreeWidgetItem(ui->TreeWidget->topLevelItemCount());
         parent->setText(0,fileinfo.mType);
+        parent->setIcon(0,mFilterIcon);
         ui->TreeWidget->addTopLevelItem(parent);
         child = new QTreeWidgetItem(0);
         child->setText(0,fileinfo.mFilename);
@@ -107,9 +108,8 @@ void ProjectExplorer::createEmptyProject()
     QTreeWidgetItem * otherptr = new QTreeWidgetItem(1);
     codeptr->setText(0,"Code");
     otherptr->setText(0,"Other");
-    QIcon icon(":/images/images/Open.png");
-    codeptr->setIcon(0,icon);
-    otherptr->setIcon(0,icon);
+    codeptr->setIcon(0,mFilterIcon);
+    otherptr->setIcon(0,mFilterIcon);
     ui->TreeWidget->addTopLevelItem(codeptr);
     ui->TreeWidget->addTopLevelItem(otherptr);
 
@@ -126,6 +126,7 @@ QString ProjectExplorer::getIcon(FileInfo fileinfo)
 
 void ProjectExplorer::openProject(ProjectFile * project_file)
 {
+
 }
 
 
