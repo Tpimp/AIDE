@@ -2,7 +2,10 @@
 #include "ui_aide.h"
 
 #include <QDebug>
-
+#include <QDir>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include <QFile>
 typedef QPair<QString, QStringList > Pair;
 
 Aide::Aide(QWidget *parent)
@@ -18,6 +21,8 @@ Aide::Aide(QWidget *parent)
     loadKnownFileTypes();
     addNewProject();
 }
+
+
 bool Aide::addNewProject(ProjectFile *newProject)
 {
     if(newProject) // If newProject is not NULL
@@ -91,8 +96,99 @@ ProjectFile * Aide::getProject(int project_index)
     return mOpenProjects.at(project_index);
 }
 
+
+void Aide::writeKnownFileTypes()
+{
+    QFile output(QDir::currentPath() + "/data/startup/known_types.conf");
+    QString data;
+    QXmlStreamWriter writer(&data);
+    writer.setAutoFormatting(true);
+    writer.setAutoFormattingIndent(true);
+    //writer.setCodec("utf-8");
+    writer.writeStartDocument();
+    writer.writeStartElement("known_types.conf");
+    writer.writeAttribute("Purpose", "Define known filters and file types");
+    foreach (Pair filter, mKnownFileTypes) //Pair is a typdef see top of file
+    {
+
+        writer.writeStartElement("Filter");
+        writer.writeTextElement("Name",filter.first);
+        foreach (QString type, filter.second)
+        {
+            writer.writeTextElement("Type",type);
+        }
+        writer.writeEndElement();
+    }
+
+    writer.writeEndDocument();
+    output.open(QIODevice::WriteOnly);
+    output.write(data.toAscii());
+    output.flush();
+    output.close();
+
+}
+
 void Aide::loadKnownFileTypes()
 {
+    QFile input(QDir::currentPath() + "/data/startup/known_types.conf");
+    input.open(QIODevice::ReadOnly);
+    QString file(input.readAll());
+    input.close();
+    QXmlStreamReader reader(file);
+    QXmlStreamReader::TokenType token;
+    QPair<QString,QStringList> current;
+    QString Filter;
+    QString Type;
+    QString Name;
+    QString * current_string;
+    while(!reader.atEnd())
+    {
+        token = reader.readNext();
+        switch(token)
+        {
+            case QXmlStreamReader::StartElement:
+            {
+                if(reader.name().toString() == "Name")
+                {
+                    current.first  = reader.text().toString();
+                    current_string = &current.first;
+                }
+                else if( reader.name() == "Type")
+                {
+                    current_string = &Name;
+                }
+                else
+                {
+                    current_string = 0;
+                }
+                break;
+            }
+            case QXmlStreamReader::Characters:
+            {
+                Name = reader.name().toString();
+                if(current_string)
+                    if(!reader.text().toString().contains('\n'))
+                    {
+                        if(current_string == &current.first)
+                            *current_string = reader.text().toString();
+                        else
+                            current.second.append(reader.text().toString());
+                    }
+                break;
+            }
+            case QXmlStreamReader::EndElement:
+            {
+                if(reader.name().toString() == "Filter")
+                {
+                    mKnownFileTypes.append(QPair<QString,QStringList>(current));
+                    current.second.clear();
+                }
+                break;
+            }
+            default: break;
+        }
+    }
+    /*
     //eventually load from a file
     QStringList types;
     types.append("asm");
@@ -102,11 +198,15 @@ void Aide::loadKnownFileTypes()
     types.clear();
     types.append("txt");
     mKnownFileTypes.append(QPair<QString,QStringList>(QString("Other"),types));
+    */
 }
+
+
 
 
 Aide::~Aide()
 {
+    // writeKnowFileTypes();
     delete ui;
     delete mEditor;
     delete mProjectExplorer;

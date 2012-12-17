@@ -37,6 +37,7 @@ class Aide : public QMainWindow
         Editor * mEditor;
         QList<QPair< QString, QStringList > > mKnownFileTypes;
         QString getFilter(QString filepath);
+        void writeKnownFileTypes();
         void loadKnownFileTypes();
     public slots:
         void createFile(QString filePath);

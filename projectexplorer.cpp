@@ -112,7 +112,6 @@ void ProjectExplorer::createEmptyProject()
     otherptr->setIcon(0,mFilterIcon);
     ui->TreeWidget->addTopLevelItem(codeptr);
     ui->TreeWidget->addTopLevelItem(otherptr);
-
 }
 
 
