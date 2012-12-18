@@ -3,10 +3,13 @@
 #include <QString>
 #include <QList>
 #include <QRegExp>
-
+#include <QPair>
 struct SyntaxPattern
 {
-  //  QString
+  QString mName;
+  QList<QRegExp> mPattern;
+  QString mStyle;
+  QList< QPair< int, bool> > mFlags; // int = flag type bool = on/off
 };
 
 

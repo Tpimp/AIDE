@@ -30,7 +30,8 @@ HEADERS  += aide.h \
     newdialog.h \
     syntaxfile.h \
     syntaxpattern.h \
-    highlighter.h
+    highlighter.h \
+    keywordlist.h
 
 
 FORMS    += aide.ui \
@@ -41,3 +42,9 @@ FORMS    += aide.ui \
 
 RESOURCES += \
     aide_resource.qrc
+
+OTHER_FILES += \
+    data/startup/known_types.conf \
+    Developer_Notes_and_Practices.nfo \
+    images/files/cpp.png \
+    images/files/asm.png

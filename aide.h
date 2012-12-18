@@ -36,6 +36,7 @@ class Aide : public QMainWindow
         ProjectExplorer * mProjectExplorer;
         Editor * mEditor;
         QList<QPair< QString, QStringList > > mKnownFileTypes;
+        QList<QPair< QString, QStringList > > mKnownMimeTypes;
         QString getFilter(QString filepath);
         void writeKnownFileTypes();
         void loadKnownFileTypes();
