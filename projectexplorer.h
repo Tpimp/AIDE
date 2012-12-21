@@ -4,6 +4,8 @@
 #include <QDockWidget>
 #include <projectfile.h>
 #include <QIcon>
+#include <QMenu>
+
 namespace Ui {
 class ProjectExplorer;
 }
@@ -19,15 +21,19 @@ public:
     FileInfo addFile(QString filepath, QString type);
     int currentProject(){return mCurrentProject;}
     QString getIcon(FileInfo fileinfo);
+    QMenu * conextMenu(){return mProjectMenu;}
     ~ProjectExplorer();
 private:
     Ui::ProjectExplorer * ui;
     int mCurrentProject;
     QIcon mFilterIcon;
+    QMenu * mProjectMenu;
 signals:
     
 public slots:
+    void openContextMenu(QPoint pos);
     void setCurrentProject(int index);
+
     
 };
 

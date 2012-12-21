@@ -2,6 +2,8 @@
 #include "ui_projectexplorer.h"
 #include <QTreeWidgetItem>
 #include <QDir>
+#include <QFileInfo>
+#include <aide.h>
 ProjectExplorer::ProjectExplorer(QWidget *parent) :
     QDockWidget(parent), ui(new Ui::ProjectExplorer),mCurrentProject(0), mFilterIcon(":/images/images/Open.png")
 {
@@ -14,21 +16,34 @@ ProjectExplorer::ProjectExplorer(QWidget *parent) :
                  );  // set the dock widget title style
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); // Set this dock widget for only left and ride sides
     createEmptyProject();
+    mProjectMenu = new QMenu("ProjectMenu",ui->TreeWidget);
+    QAction * new_file = mProjectMenu->addAction("Add New File");
+    QAction * add_file = mProjectMenu->addAction("Add Existing File");
+    connect(ui->TreeWidget,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(openContextMenu(QPoint)));
 }
 
 
 FileInfo ProjectExplorer::addFile(QString filepath, QString type)
 {
-    QFile file(filepath);
+    QFileInfo info(filepath);
     FileInfo fileinfo;
+    /*
     int sep = filepath.lastIndexOf('/');
-    fileinfo.mFilename = filepath.remove(0,sep+1);
+    fileinfo.mFilename = QString(filepath).remove(0,sep+1);
     fileinfo.mPath = filepath;
     fileinfo.mDir = filepath;
     fileinfo.mType = type;
     fileinfo.mPath.remove(fileinfo.mFilename);
-    int location = filepath.lastIndexOf('/');
-    fileinfo.mDir = filepath.remove(0,location);
+    fileinfo.mDir = fileinfo.mPath;
+    fileinfo.mDir = fileinfo.mDir.remove(filepath.lastIndexOf('/'),1);
+    int location = fileinfo.mDir.lastIndexOf('/');
+    fileinfo.mDir.remove(0,location+1);*/
+    fileinfo.mRelativePath = fileinfo.mPath = info.absolutePath();
+    fileinfo.mDir = info.dir().dirName();
+    fileinfo.mFilename = info.completeBaseName() + '.' + info.completeSuffix();
+    fileinfo.mType = type;
+    QString project_path = ((Aide*)this->parent())->getProject(mCurrentProject)->filePath();
+    fileinfo.mRelativePath.remove(/*project_path*/ "/home/christopher/Qt_Projects/AIDE-build-Desktop-Debug");
     int filters = ui->TreeWidget->topLevelItemCount();
     QTreeWidgetItem * child;
     bool TYPEFOUND = false;
@@ -123,6 +138,11 @@ QString ProjectExplorer::getIcon(FileInfo fileinfo)
     return ("/images/files/" + extension);
 }
 
+void ProjectExplorer::openContextMenu(QPoint pos)
+{
+    mProjectMenu->popup(ui->TreeWidget->mapToGlobal(pos));
+}
+
 void ProjectExplorer::openProject(ProjectFile * project_file)
 {
 
@@ -139,4 +159,5 @@ ProjectExplorer::~ProjectExplorer()
 
 {
     delete ui;
+    delete mProjectMenu;
 }

@@ -41,6 +41,7 @@ class Aide : public QMainWindow
         void writeKnownFileTypes();
         void loadKnownFileTypes();
     public slots:
+        void createExisting();
         void createFile(QString filePath);
         void createProject(QString projectPath);
 };

@@ -1,6 +1,7 @@
 #include <QtGui>
 #include "highlighter.h"
-
+#include "syntaxpattern.h"
+#include "keywordlist.h"
 Highlighter::Highlighter(/*QList language, */QTextDocument *parent) :
     QSyntaxHighlighter(parent)
 {
@@ -8,7 +9,8 @@ Highlighter::Highlighter(/*QList language, */QTextDocument *parent) :
 
     mKeywordFormat.setForeground(Qt::blue);
     mKeywordFormat.setFontWeight(QFont::Bold);
-    QStringList keywordPatterns;
+    QStringList keywordPatterns;  
+
     keywordPatterns << "\\bpush\\b" << "\\bpop\\b";
     foreach (const QString &pattern, keywordPatterns)
     {

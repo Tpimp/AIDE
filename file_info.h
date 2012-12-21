@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QList>
-
+#include <QPair>
 struct FileInfo
 {
     // Data Members
@@ -11,7 +11,8 @@ struct FileInfo
     QString mDir;
     QString mPath;
     QString mType;
-    QList<int> mBreakpoints;
+    QString mRelativePath;
+    QList< int > mBreakpoints;
 };
 
 

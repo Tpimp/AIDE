@@ -44,12 +44,20 @@
      <iconset resource="aide_resource.qrc">
       <normaloff>:/images/images/AIDE_Button_Small.png</normaloff>:/images/images/AIDE_Button_Small.png</iconset>
     </property>
+    <widget class="QMenu" name="menuSave">
+     <property name="title">
+      <string>Save ...</string>
+     </property>
+     <addaction name="ActionSave_Current_Project"/>
+     <addaction name="ActionSave_Current_File"/>
+    </widget>
     <addaction name="ActionNew"/>
+    <addaction name="menuSave"/>
     <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="MenuEDIT">
     <property name="title">
-     <string>EDIT</string>
+     <string>&amp;EDIT</string>
     </property>
    </widget>
    <widget class="QMenu" name="MenuVIEW">
@@ -104,6 +112,22 @@
    </property>
    <property name="text">
     <string>New File or Project</string>
+   </property>
+  </action>
+  <action name="ActionSave_Current_Project">
+   <property name="text">
+    <string>Current Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="ActionSave_Current_File">
+   <property name="text">
+    <string>Current File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

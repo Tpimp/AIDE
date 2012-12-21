@@ -6,6 +6,7 @@
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <QFile>
+#include <QFileDialog>
 typedef QPair<QString, QStringList > Pair;
 
 Aide::Aide(QWidget *parent)
@@ -16,6 +17,10 @@ Aide::Aide(QWidget *parent)
     mNewDialog = new NewDialog(this);
     connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
     connect(ui->ActionNew,SIGNAL(triggered()),mNewDialog, SLOT(open()));
+    QAction * new_file = mProjectExplorer->conextMenu()->actions()[0];
+    QAction * existing_file = mProjectExplorer->conextMenu()->actions()[1];
+    connect(existing_file,SIGNAL(triggered()),this,SLOT(createExisting()));
+    connect(new_file,SIGNAL(triggered()),mNewDialog,SLOT(open()));
     addDockWidget(Qt::LeftDockWidgetArea,mProjectExplorer,Qt::Vertical);
     setCentralWidget(mEditor);
     loadKnownFileTypes();
@@ -49,12 +54,21 @@ bool Aide::addFileToProject(int project_index, FileInfo *file)
     return false;
 }
 
+void Aide::createExisting()
+{
+    QString file = QFileDialog::getOpenFileName(this,"Add Existing File to Project",QDir::currentPath());
+    if(file != "")
+    {
+        createFile(file);
+    }
+}
+
 void Aide::createFile(QString filepath)
 {
     qDebug() << "Creating file at:" << filepath;
     //type = getFiletype(filepath);
     FileInfo * file_info = new FileInfo;
-    QString filter = getFilter(filepath);
+    QString filter = getFilter(QString(filepath));
     FileInfo info = mProjectExplorer->addFile(filepath, filter);
     file_info->mDir = info.mDir;
     file_info->mFilename = info.mFilename;
