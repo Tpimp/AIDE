@@ -44,20 +44,12 @@
      <iconset resource="aide_resource.qrc">
       <normaloff>:/images/images/AIDE_Button_Small.png</normaloff>:/images/images/AIDE_Button_Small.png</iconset>
     </property>
-    <widget class="QMenu" name="menuSave">
-     <property name="title">
-      <string>Save ...</string>
-     </property>
-     <addaction name="ActionSave_Current_Project"/>
-     <addaction name="ActionSave_Current_File"/>
-    </widget>
     <addaction name="ActionNew"/>
-    <addaction name="menuSave"/>
     <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="MenuEDIT">
     <property name="title">
-     <string>&amp;EDIT</string>
+     <string>EDIT</string>
     </property>
    </widget>
    <widget class="QMenu" name="MenuVIEW">
@@ -75,7 +67,17 @@
      <string>ABOUT</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuPROJECT">
+    <property name="title">
+     <string>PROJECT</string>
+    </property>
+    <addaction name="ActionBuild_and_Run"/>
+    <addaction name="ActionBuild_and_Debug"/>
+    <addaction name="ActionClean"/>
+    <addaction name="ActionReBuild"/>
+   </widget>
    <addaction name="MenuAIDE"/>
+   <addaction name="menuPROJECT"/>
    <addaction name="MenuEDIT"/>
    <addaction name="MenuVIEW"/>
    <addaction name="MenuWINDOW"/>
@@ -114,20 +116,30 @@
     <string>New File or Project</string>
    </property>
   </action>
-  <action name="ActionSave_Current_Project">
+  <action name="ActionBuild_and_Run">
    <property name="text">
-    <string>Current Project</string>
+    <string>Build and Run</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
+    <string>F5</string>
    </property>
   </action>
-  <action name="ActionSave_Current_File">
+  <action name="ActionBuild_and_Debug">
    <property name="text">
-    <string>Current File</string>
+    <string>Build and Debug</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+S</string>
+    <string>Shift+F5</string>
+   </property>
+  </action>
+  <action name="ActionClean">
+   <property name="text">
+    <string>Clean</string>
+   </property>
+  </action>
+  <action name="ActionReBuild">
+   <property name="text">
+    <string>ReBuild</string>
    </property>
   </action>
  </widget>

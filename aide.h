@@ -10,7 +10,7 @@
 #include "newdialog.h"
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
-
+#include <QProcess>
 
 namespace Ui
 {
@@ -26,6 +26,7 @@ class Aide : public QMainWindow
         bool addNewProject(ProjectFile * newProject = 0);
         bool addFileToProject(int project_index,FileInfo * file);
         ProjectFile * getProject(int project_index);
+        void startBuildSystem(QString build_mode);
         ~Aide();
 
     private:
@@ -35,15 +36,23 @@ class Aide : public QMainWindow
         QList<QStringList>   mFileTypes;   // ADD INITIALIZE FILES TYPES
         ProjectExplorer * mProjectExplorer;
         Editor * mEditor;
+        QProcess * mBuildSystemProcess;
+        QString mBuildSystemPath;
         QList<QPair< QString, QStringList > > mKnownFileTypes;
         QList<QPair< QString, QStringList > > mKnownMimeTypes;
         QString getFilter(QString filepath);
+        QString mBuildSystemMode;
         void writeKnownFileTypes();
         void loadKnownFileTypes();
     public slots:
         void createExisting();
         void createFile(QString filePath);
         void createProject(QString projectPath);
+        void readBytes();
+        void setDebug();
+        void setRun();
+        void setClean();
+        void setReBuild();
 };
 
 #endif // AIDE_H

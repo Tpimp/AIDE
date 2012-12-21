@@ -11,12 +11,18 @@ typedef QPair<QString, QStringList > Pair;
 
 Aide::Aide(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this))
+      ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this)),
+      mBuildSystemPath("./data/bin/BuildSystem")
 {
     ui->setupUi(this);
     mNewDialog = new NewDialog(this);
+    mBuildSystemProcess = new QProcess(this);
     connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
     connect(ui->ActionNew,SIGNAL(triggered()),mNewDialog, SLOT(open()));
+    connect(ui->ActionBuild_and_Run, SIGNAL(triggered()), this, SLOT(setRun()));
+    connect(ui->ActionBuild_and_Debug, SIGNAL(triggered()), this, SLOT(setDebug()));
+    connect(ui->ActionClean, SIGNAL(triggered()), this, SLOT(setClean()));
+    connect(ui->ActionReBuild, SIGNAL(triggered()), this, SLOT(setReBuild()));
     QAction * new_file = mProjectExplorer->conextMenu()->actions()[0];
     QAction * existing_file = mProjectExplorer->conextMenu()->actions()[1];
     connect(existing_file,SIGNAL(triggered()),this,SLOT(createExisting()));
@@ -216,6 +222,48 @@ void Aide::loadKnownFileTypes()
 }
 
 
+void Aide::setDebug()
+{
+    mBuildSystemMode = "Debug";
+    startBuildSystem(mBuildSystemMode);
+}
+
+void Aide::setRun()
+{
+    mBuildSystemMode = "Run";
+    startBuildSystem(mBuildSystemMode);
+}
+
+void Aide::setClean()
+{
+    mBuildSystemMode = "Clean";
+    startBuildSystem(mBuildSystemMode);
+}
+
+void Aide::setReBuild()
+{
+    mBuildSystemMode = "Rebuild";
+    startBuildSystem(mBuildSystemMode);
+}
+
+
+void Aide::startBuildSystem(QString build_mode)
+{
+    QStringList BuildSystemArguments;
+    BuildSystemArguments << build_mode;//only debug does something right now
+    mBuildSystemProcess->start(mBuildSystemPath, BuildSystemArguments);
+    mBuildSystemProcess->setProcessChannelMode(QProcess::MergedChannels);
+    connect(mBuildSystemProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readBytes()));
+}
+
+//BUILDSYSTEM talks on 0/1
+//QDEBUG talks on 2
+
+void Aide::readBytes()
+{
+    QString strin = mBuildSystemProcess->readAllStandardOutput();
+    qDebug() << strin;
+}
 
 
 Aide::~Aide()
