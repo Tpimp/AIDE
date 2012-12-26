@@ -17,12 +17,7 @@ Aide::Aide(QWidget *parent)
     ui->setupUi(this);
     mNewDialog = new NewDialog(this);
     mBuildSystemProcess = new QProcess(this);
-    connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
-    connect(ui->ActionNew,SIGNAL(triggered()),mNewDialog, SLOT(open()));
-    connect(ui->ActionBuild_and_Run, SIGNAL(triggered()), this, SLOT(setRun()));
-    connect(ui->ActionBuild_and_Debug, SIGNAL(triggered()), this, SLOT(setDebug()));
-    connect(ui->ActionClean, SIGNAL(triggered()), this, SLOT(setClean()));
-    connect(ui->ActionReBuild, SIGNAL(triggered()), this, SLOT(setReBuild()));
+    Connections();
     QAction * new_file = mProjectExplorer->conextMenu()->actions()[0];
     QAction * existing_file = mProjectExplorer->conextMenu()->actions()[1];
     connect(existing_file,SIGNAL(triggered()),this,SLOT(createExisting()));
@@ -33,6 +28,16 @@ Aide::Aide(QWidget *parent)
     addNewProject();
 }
 
+
+void Aide::Connections()
+{
+    connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
+    connect(ui->ActionNew,SIGNAL(triggered()),mNewDialog, SLOT(open()));
+    connect(ui->ActionBuild_and_Run, SIGNAL(triggered()), this, SLOT(setRun()));
+    connect(ui->ActionBuild_and_Debug, SIGNAL(triggered()), this, SLOT(setDebug()));
+    connect(ui->ActionClean, SIGNAL(triggered()), this, SLOT(setClean()));
+    connect(ui->ActionReBuild, SIGNAL(triggered()), this, SLOT(setReBuild()));
+}
 
 bool Aide::addNewProject(ProjectFile *newProject)
 {
@@ -247,10 +252,16 @@ void Aide::setReBuild()
 }
 
 
-void Aide::startBuildSystem(QString build_mode)
+void Aide::startBuildSystem(QString build_mode /*add files_to_compile string_list*/)
 {
     QStringList BuildSystemArguments;
-    BuildSystemArguments << build_mode;//only debug does something right now
+    BuildSystemArguments << build_mode;//list of args to pass to buildsystem
+    //                              these args will be filled with:
+    //                              file_path (default 1st string)
+    //                              build_mode (defined 2nd string)
+    //                              program_to_build_name (defined 3rd string)
+    //                              files to compile (will add a string foreach file) <<--perhaps create as data member so no parameter is needed
+    //                              I can write a function to check these guys later ^^ (files)
     mBuildSystemProcess->start(mBuildSystemPath, BuildSystemArguments);
     mBuildSystemProcess->setProcessChannelMode(QProcess::MergedChannels);
     connect(mBuildSystemProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readBytes()));

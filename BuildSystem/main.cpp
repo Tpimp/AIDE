@@ -1,22 +1,34 @@
 #include <QtGui/QApplication>
+#include <QCoreApplication>
 #include "buildsystem.h"
 #include <QString>
 #include <QStringList>
 
+enum BuildSystemMode {RUN = 0, DEBUG,
+                      REBUILD, CLEAN}; //add as needed
+
 int main(int argc, char *argv[])
 {
     bool GUI(false);
+    BuildSystemMode run_time_type;
 
-    if(argc > 1)
+    QString build_enum_param = argv[1];
+
+    if (argc > 1)
     {
-        QString arg1 = argv[1];
-        //this will eventually check
-        //arg1 against a case table
-        //containing "Debug" "Build" "Run" "Clean" etc...
-        //determine more as needed
-        if (arg1 == "Debug")
-            GUI = true;
+
+        if (build_enum_param == "Run")
+            run_time_type = RUN;
+        else if (build_enum_param == "Debug")
+            run_time_type = DEBUG;
+        else if (build_enum_param == "Rebuild")
+            run_time_type = REBUILD;
+        else if (build_enum_param == "Clean")
+            run_time_type = CLEAN;
     }
+
+    if (run_time_type == DEBUG)
+        GUI = true;
 
     //QApplication receives GUI flag to enable/disable
     QApplication a(argc, argv, GUI);

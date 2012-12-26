@@ -5,6 +5,8 @@
 #include <QStringList>
 #include <QProcess>
 #include <QFile>
+#include <QList>
+#include "terminalcontroller.h"
 
 //AIDE talks on 0/1
 //GDB talks on 2/3/4
@@ -25,6 +27,13 @@ private:
     QMainWindow * mMainWindow;
     QFile * mAideIn;//communication channels between
     QFile * mAideOut;//buildsystem and aide parent process
+    QString mTerminalPath;
+    int mNumberFilesToCompile;
+    QStringList mTerminalCompileFiles;
+    QString mBuildName;
+    TerminalController * mTerminal;
+    void setupAideCommunications();
+    void parseArguments(QStringList arguments);
 
 };
 

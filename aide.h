@@ -44,6 +44,8 @@ class Aide : public QMainWindow
         QString mBuildSystemMode;
         void writeKnownFileTypes();
         void loadKnownFileTypes();
+        void Connections();
+
     public slots:
         void createExisting();
         void createFile(QString filePath);

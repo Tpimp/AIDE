@@ -11,8 +11,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        buildsystem.cpp
+        buildsystem.cpp \
+    terminalcontroller.cpp
 
-HEADERS  += buildsystem.h
+HEADERS  += buildsystem.h \
+    terminalcontroller.h
 
 FORMS    += buildsystem.ui
