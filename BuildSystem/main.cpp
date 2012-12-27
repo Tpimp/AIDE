@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     bool GUI(false);
     BuildSystemMode run_time_type;
 
-    QString build_enum_param = argv[1];
+    QString build_enum_param = argv[2];
 
     if (argc > 1)
     {

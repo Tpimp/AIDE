@@ -28,7 +28,7 @@ class Aide : public QMainWindow
         bool addNewProject(QString name, QString filepath, ProjectFile * newProject = 0);
         bool addFileToProject(int project_index,FileInfo * file);
         ProjectFile * getProject(int project_index);
-        void startBuildSystem(QString build_mode);
+        void startBuildSystem();
         ~Aide();
 
     private:
@@ -43,7 +43,7 @@ class Aide : public QMainWindow
         QList<QPair< QString, QStringList > > mKnownFileTypes;
         QList<QPair< QString, QStringList > > mKnownMimeTypes;
         QString getFilter(QString filepath);
-        QString mBuildSystemMode;
+        QStringList mBuildSystemArgs;
         void writeKnownFileTypes();
         void loadKnownFileTypes();
         void Connections();

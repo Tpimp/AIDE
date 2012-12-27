@@ -6,15 +6,15 @@
 
 QT       += core gui
 
-TARGET = BuildSystem
+TARGET = BuildSystem.exe
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         buildsystem.cpp \
-    terminalcontroller.cpp
+    processcontroller.cpp
 
 HEADERS  += buildsystem.h \
-    terminalcontroller.h
+    processcontroller.h
 
 FORMS    += buildsystem.ui

@@ -6,7 +6,7 @@ BuildSystem::BuildSystem(QStringList arguments, bool GUI, QWidget *parent)
 {
     parseArguments(arguments);//arguments is empty and should not be used after this function call
     //^^after this call we have the bulid name and the files to compile
-    mTerminal = new TerminalController(mBuildName, this);
+    mTerminal = new ProcessController(mBuildName, this);
     mTerminal->start(mTerminalPath);
     setupAideCommunications();
     if (GUI)
@@ -22,9 +22,9 @@ void BuildSystem::parseArguments(QStringList arguments)
 {
     if (!arguments.isEmpty())
     {
-        arguments.removeFirst();//removes unecessary buildsystem filepath arg
-        arguments.removeFirst();//removes unecessary build mode arg
-        mBuildName = arguments.takeFirst();//takes the build name for file linking
+        mBuildMode = arguments.at(Build_Mode);   // Grab Build Mode
+        mRunMode = arguments.at(Run_Mode);   // Grab Run Mode
+        mBuildName = arguments.at(Project);   // Grab project file location
         foreach(QString arg, arguments)
         {
             mTerminalCompileFiles << arg;

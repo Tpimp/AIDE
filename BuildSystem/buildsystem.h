@@ -6,7 +6,7 @@
 #include <QProcess>
 #include <QFile>
 #include <QList>
-#include "terminalcontroller.h"
+#include "processcontroller.h"
 
 //AIDE talks on 0/1
 //GDB talks on 2/3/4
@@ -15,6 +15,14 @@
 namespace Ui {
 class BuildSystem;
 }
+
+enum Arguments
+{
+    Build_Mode = 1,
+    Run_Mode = 2,
+    Project = 3
+};
+
 
 class BuildSystem : public QObject
 {
@@ -31,7 +39,9 @@ private:
     int mNumberFilesToCompile;
     QStringList mTerminalCompileFiles;
     QString mBuildName;
-    TerminalController * mTerminal;
+    QString mRunMode;
+    QString mBuildMode;
+    ProcessController * mTerminal;
     void setupAideCommunications();
     void parseArguments(QStringList arguments);
 

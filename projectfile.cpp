@@ -42,14 +42,14 @@ void ProjectFile::saveProject()
           {
               writer.writeStartElement("File");
               writer.writeTextElement("Name", file->mFilename);
-              writer.writeTextElement("FilePath", file->mPath);
+              writer.writeTextElement("Path", file->mPath);
               writer.writeTextElement("Type", file->mType);
               if(file->mBreakpoints.size() > 0)
               {
                   writer.writeStartElement("Breakpoints");
                   foreach(int  line_count, file->mBreakpoints)
                   {
-                      writer.writeTextElement("Breakpoint",QString::number(line_count));
+                      writer.writeTextElement("BP",QString::number(line_count));
                   }
                   writer.writeEndElement();
               }

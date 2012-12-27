@@ -12,7 +12,7 @@ typedef QPair<QString, QStringList > Pair;
 Aide::Aide(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this)),
-      mBuildSystemPath("./data/bin/BuildSystem")
+      mBuildSystemPath("./data/bin/BuildSystem.exe")
 {
     // Load UI and configure embedded widgets
     ui->setupUi(this);
@@ -21,7 +21,7 @@ Aide::Aide(QWidget *parent)
     addDockWidget(Qt::LeftDockWidgetArea,mProjectExplorer,Qt::Vertical);
     setCentralWidget(mEditor);
     loadKnownFileTypes();                 //load the known file types file Data/Startup/
-
+    Connections();
 
     // For testing Save Project
     ProjectFile * project = new ProjectFile("test.aid","/home/christopher/Desktop/AIDE/",this);
@@ -178,6 +178,7 @@ void Aide::writeKnownFileTypes()
 
 }
 
+
 void Aide::loadKnownFileTypes()
 {
     QFile input(QDir::currentPath() + "/data/startup/known_types.conf");
@@ -252,40 +253,40 @@ void Aide::saveProject()
 
 void Aide::setDebug()
 {
-    mBuildSystemMode = "Debug";
-    startBuildSystem(mBuildSystemMode);
+    ProjectFile * project = mOpenProjects.at(mProjectExplorer->currentProject());
+    mBuildSystemArgs << "Build" << "Debug" << project->filePath();
+    startBuildSystem();
 }
 
 void Aide::setRun()
 {
-    mBuildSystemMode = "Run";
-    startBuildSystem(mBuildSystemMode);
+    mBuildSystemArgs << "Run";
+    startBuildSystem();
 }
 
 void Aide::setClean()
 {
-    mBuildSystemMode = "Clean";
-    startBuildSystem(mBuildSystemMode);
+    mBuildSystemArgs << "Clean";
+    startBuildSystem();
 }
 
 void Aide::setReBuild()
 {
-    mBuildSystemMode = "Rebuild";
-    startBuildSystem(mBuildSystemMode);
+    mBuildSystemArgs << "Rebuild";
+    startBuildSystem();
 }
 
 
-void Aide::startBuildSystem(QString build_mode /*add files_to_compile string_list*/)
+void Aide::startBuildSystem()
 {
-    QStringList BuildSystemArguments;
-    BuildSystemArguments << build_mode;//list of args to pass to buildsystem
+
     //                              these args will be filled with:
     //                              file_path (default 1st string)
     //                              build_mode (defined 2nd string)
-    //                              program_to_build_name (defined 3rd string)
-    //                              files to compile (will add a string foreach file) <<--perhaps create as data member so no parameter is needed
+    //                              run_mode   (defined 3rd string)
+    //                              project_file (defined 3rd string)
     //                              I can write a function to check these guys later ^^ (files)
-    mBuildSystemProcess->start(mBuildSystemPath, BuildSystemArguments);
+    mBuildSystemProcess->start(mBuildSystemPath,mBuildSystemArgs);
     mBuildSystemProcess->setProcessChannelMode(QProcess::MergedChannels);
     connect(mBuildSystemProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readBytes()));
 }
