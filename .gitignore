@@ -1,4 +1,9 @@
 *.user
 *.*~
-
-
+moc_*
+*.o
+Makefile
+BuildSystem.exe
+qrc_
+qrc_*
+AIDE.exe
