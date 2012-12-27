@@ -14,40 +14,49 @@ Aide::Aide(QWidget *parent)
       ui(new Ui::Aide), mProjectExplorer(new ProjectExplorer(this)),mEditor(new Editor(this)),
       mBuildSystemPath("./data/bin/BuildSystem")
 {
+    // Load UI and configure embedded widgets
     ui->setupUi(this);
     mNewDialog = new NewDialog(this);
     mBuildSystemProcess = new QProcess(this);
-    Connections();
-    QAction * new_file = mProjectExplorer->conextMenu()->actions()[0];
-    QAction * existing_file = mProjectExplorer->conextMenu()->actions()[1];
-    connect(existing_file,SIGNAL(triggered()),this,SLOT(createExisting()));
-    connect(new_file,SIGNAL(triggered()),mNewDialog,SLOT(open()));
     addDockWidget(Qt::LeftDockWidgetArea,mProjectExplorer,Qt::Vertical);
     setCentralWidget(mEditor);
-    loadKnownFileTypes();
-    addNewProject();
+    loadKnownFileTypes();                 //load the known file types file Data/Startup/
+
+
+    // For testing Save Project
+    ProjectFile * project = new ProjectFile("test.aid","/home/christopher/Desktop/AIDE/",this);
+    project->addFilter("Code");
+    project->addFilter("Other");
+    FileInfo * fileinfo = new FileInfo;
+    fileinfo->mPath = "FilePath";
+    fileinfo->mType = "Code";
+    fileinfo->mFilename = "file.code";
+    fileinfo->mBreakpoints.append(25);
+    fileinfo->mBreakpoints.append(26);
+    fileinfo->mBreakpoints.append(29);
+    fileinfo->mBreakpoints.append(231);
+    fileinfo->mBreakpoints.append(250);
+    fileinfo->mBreakpoints.append(252);
+    fileinfo->mDir = "AIDE";
+    fileinfo->mRelativePath = "/AIDE";
+    project->addFile(fileinfo);
+    addNewProject(project->name(),project->filePath(),project);
 }
 
 
-void Aide::Connections()
-{
-    connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
-    connect(ui->ActionNew,SIGNAL(triggered()),mNewDialog, SLOT(open()));
-    connect(ui->ActionBuild_and_Run, SIGNAL(triggered()), this, SLOT(setRun()));
-    connect(ui->ActionBuild_and_Debug, SIGNAL(triggered()), this, SLOT(setDebug()));
-    connect(ui->ActionClean, SIGNAL(triggered()), this, SLOT(setClean()));
-    connect(ui->ActionReBuild, SIGNAL(triggered()), this, SLOT(setReBuild()));
-}
-
-bool Aide::addNewProject(ProjectFile *newProject)
+bool Aide::addNewProject(QString name, QString filepath, ProjectFile *newProject)
 {
     if(newProject) // If newProject is not NULL
     {
         mOpenProjects.append(newProject); // add it to open project list
+        mProjectExplorer->addProject(name);
+        mProjectExplorer->fillTreeWidget(newProject);
     }
     else
     {
-        ProjectFile * ptr = new ProjectFile("",this);
+        ProjectFile * ptr = new ProjectFile(name, filepath,this);
+        mProjectExplorer->addProject(name);
+        mProjectExplorer->createEmptyProject();
         mOpenProjects.append(ptr); // add it to open project list
     }
     return newProject;
@@ -64,6 +73,23 @@ bool Aide::addFileToProject(int project_index, FileInfo *file)
     }
     return false;
 }
+
+void Aide::Connections()
+{
+    connect(ui->ActionExit,SIGNAL(triggered()),this,SLOT(close()));
+    connect(ui->ActionNew,SIGNAL(triggered()),mNewDialog, SLOT(open()));
+    connect(ui->ActionBuild_and_Run, SIGNAL(triggered()), this, SLOT(setRun()));
+    connect(ui->ActionBuild_and_Debug, SIGNAL(triggered()), this, SLOT(setDebug()));
+    connect(ui->ActionClean, SIGNAL(triggered()), this, SLOT(setClean()));
+    connect(ui->ActionReBuild, SIGNAL(triggered()), this, SLOT(setReBuild()));
+    QAction * new_file = mProjectExplorer->conextMenu()->actions()[0];
+    QAction * existing_file = mProjectExplorer->conextMenu()->actions()[1];
+    connect(existing_file,SIGNAL(triggered()),this,SLOT(createExisting()));
+    connect(new_file,SIGNAL(triggered()),mNewDialog,SLOT(open()));
+    connect(ui->ActionProject,SIGNAL(triggered()),this,SLOT(saveProject()));
+
+}
+
 
 void Aide::createExisting()
 {
@@ -129,7 +155,6 @@ void Aide::writeKnownFileTypes()
     QXmlStreamWriter writer(&data);
     writer.setAutoFormatting(true);
     writer.setAutoFormattingIndent(true);
-    //writer.setCodec("utf-8");
     writer.writeStartDocument();
     writer.writeStartElement("known_types.conf");
     writer.writeAttribute("Purpose", "Define known filters and file types");
@@ -213,19 +238,17 @@ void Aide::loadKnownFileTypes()
             default: break;
         }
     }
-    /*
-    //eventually load from a file
-    QStringList types;
-    types.append("asm");
-    types.append("cpp");
-    types.append("c");
-    mKnownFileTypes.append(QPair<QString,QStringList>(QString("Code"),types));
-    types.clear();
-    types.append("txt");
-    mKnownFileTypes.append(QPair<QString,QStringList>(QString("Other"),types));
-    */
 }
 
+void Aide::saveProject()
+{
+    int current_project = mProjectExplorer->currentProject();        //Get the current project count
+    if(mOpenProjects.count() > current_project)                      //If the project is valid
+    {
+        ProjectFile * project = mOpenProjects.at(current_project);   //Get the project file pointer
+        project->saveProject();                                      //Save its current state
+    }
+}
 
 void Aide::setDebug()
 {

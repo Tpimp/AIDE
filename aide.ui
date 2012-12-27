@@ -44,7 +44,16 @@
      <iconset resource="aide_resource.qrc">
       <normaloff>:/images/images/AIDE_Button_Small.png</normaloff>:/images/images/AIDE_Button_Small.png</iconset>
     </property>
+    <widget class="QMenu" name="menuSave">
+     <property name="title">
+      <string>Save</string>
+     </property>
+     <addaction name="ActionProject"/>
+     <addaction name="ActionAllFiles"/>
+     <addaction name="ActionCurrentFile"/>
+    </widget>
     <addaction name="ActionNew"/>
+    <addaction name="menuSave"/>
     <addaction name="ActionExit"/>
    </widget>
    <widget class="QMenu" name="MenuEDIT">
@@ -140,6 +149,21 @@
   <action name="ActionReBuild">
    <property name="text">
     <string>ReBuild</string>
+   </property>
+  </action>
+  <action name="ActionProject">
+   <property name="text">
+    <string>Project</string>
+   </property>
+  </action>
+  <action name="ActionAllFiles">
+   <property name="text">
+    <string>All Files</string>
+   </property>
+  </action>
+  <action name="ActionCurrentFile">
+   <property name="text">
+    <string>Current File</string>
    </property>
   </action>
  </widget>

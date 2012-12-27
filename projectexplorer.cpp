@@ -15,29 +15,16 @@ ProjectExplorer::ProjectExplorer(QWidget *parent) :
                      "QDockWidget { color: yellow; font bold 20px; border: 2px solid black; }"
                  );  // set the dock widget title style
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); // Set this dock widget for only left and ride sides
-    createEmptyProject();
     mProjectMenu = new QMenu("ProjectMenu",ui->TreeWidget);
     QAction * new_file = mProjectMenu->addAction("Add New File");
     QAction * add_file = mProjectMenu->addAction("Add Existing File");
     connect(ui->TreeWidget,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(openContextMenu(QPoint)));
 }
 
-
 FileInfo ProjectExplorer::addFile(QString filepath, QString type)
 {
     QFileInfo info(filepath);
     FileInfo fileinfo;
-    /*
-    int sep = filepath.lastIndexOf('/');
-    fileinfo.mFilename = QString(filepath).remove(0,sep+1);
-    fileinfo.mPath = filepath;
-    fileinfo.mDir = filepath;
-    fileinfo.mType = type;
-    fileinfo.mPath.remove(fileinfo.mFilename);
-    fileinfo.mDir = fileinfo.mPath;
-    fileinfo.mDir = fileinfo.mDir.remove(filepath.lastIndexOf('/'),1);
-    int location = fileinfo.mDir.lastIndexOf('/');
-    fileinfo.mDir.remove(0,location+1);*/
     fileinfo.mRelativePath = fileinfo.mPath = info.absolutePath();
     fileinfo.mDir = info.dir().dirName();
     fileinfo.mFilename = info.completeBaseName() + '.' + info.completeSuffix();
@@ -60,10 +47,6 @@ FileInfo ProjectExplorer::addFile(QString filepath, QString type)
                 found_at = index;
                 parent = item;
             }
-        }
-        else
-        {
-            break;
         }
 
     }
@@ -116,6 +99,21 @@ FileInfo ProjectExplorer::addFile(QString filepath, QString type)
     return fileinfo;
 }
 
+void ProjectExplorer::addFilter(QString filter)
+{
+    QTreeWidgetItem * treewidgetitem = new QTreeWidgetItem(ui->TreeWidget->topLevelItemCount()-1);
+    treewidgetitem->setText(0,filter);
+    treewidgetitem->setIcon(0,mFilterIcon);
+    ui->TreeWidget->addTopLevelItem(treewidgetitem);
+}
+
+void ProjectExplorer::addProject(QString name)
+{
+    ui->ProjectSelector->addItem(name);
+    mCurrentProject = ui->ProjectSelector->count()-1;
+    ui->ProjectSelector->setCurrentIndex(mCurrentProject);
+}
+
 void ProjectExplorer::createEmptyProject()
 {
 
@@ -129,6 +127,19 @@ void ProjectExplorer::createEmptyProject()
     ui->TreeWidget->addTopLevelItem(otherptr);
 }
 
+void ProjectExplorer::fillTreeWidget(ProjectFile *project)
+{
+    QStringList & filters = project->Filters();
+    foreach(QString filter, filters)
+    {
+       addFilter(filter);
+    }
+    QList<FileInfo *> & files = project->Files();
+    foreach(FileInfo * file, files)
+    {
+        addFile((file->mPath+file->mFilename),file->mType);
+    }
+}
 
 QString ProjectExplorer::getIcon(FileInfo fileinfo)
 {

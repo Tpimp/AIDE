@@ -12,9 +12,13 @@ class ProjectFile : public QObject
 {
     Q_OBJECT
 public:
-    explicit ProjectFile(QString FilePath = "",QObject *parent = 0);
+    explicit ProjectFile(QString name = "", QString FilePath = "",QObject *parent = 0);
     void addFile(FileInfo * file);
+    void addFilter(QString filter);
+    QList<FileInfo*> & Files(){return mFiles;}
+    QStringList & Filters(){return mFilters;}
     QString filePath(){return mPath;}
+    QString name(){return mName;}
     void loadProject(QString project_location);
     void saveProject();
     ~ProjectFile();

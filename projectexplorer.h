@@ -16,9 +16,11 @@ class ProjectExplorer : public QDockWidget
 public:
 
     explicit ProjectExplorer(QWidget *parent = 0);
+    void addProject(QString name);
     void createEmptyProject();
     void openProject(ProjectFile * project_file = 0);
     FileInfo addFile(QString filepath, QString type);
+    void addFilter(QString filter);
     int currentProject(){return mCurrentProject;}
     QString getIcon(FileInfo fileinfo);
     QMenu * conextMenu(){return mProjectMenu;}
@@ -33,7 +35,7 @@ signals:
 public slots:
     void openContextMenu(QPoint pos);
     void setCurrentProject(int index);
-
+    void fillTreeWidget(ProjectFile * project);
     
 };
 

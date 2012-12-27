@@ -5,6 +5,7 @@
 #include <QItemSelectionModel>
 #include <QRect>
 #include <QObjectList>
+#include <QFileDialog>
 #include <aide.h>
 NewDialog::NewDialog(QWidget *parent) :
     QDialog(parent),
@@ -18,7 +19,9 @@ NewDialog::NewDialog(QWidget *parent) :
     connect(ui->FileTree, SIGNAL(clicked(QModelIndex)), this, SLOT(selectFile()));
     connect(ui->FileTree, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),this,SLOT(setDescription(QTreeWidgetItem*,QTreeWidgetItem*)));
     connect(ui->ProjectTree, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),this,SLOT(setDescription(QTreeWidgetItem*,QTreeWidgetItem*)));
-
+    connect(ui->NextButton,SIGNAL(clicked()), this, SLOT(nextPage()));
+    connect(ui->BackButton,SIGNAL(clicked()), this, SLOT(prevPage()));
+    connect(ui->BrowseButton,SIGNAL(clicked()),this,SLOT(getDirectory()));
 
 
     QTreeWidget * tmpTree = ui->ProjectTree;
@@ -53,13 +56,50 @@ void NewDialog::create()
     else
         if(currentItem->type() >= ui->ProjectTree->topLevelItemCount())
         {
-            QString ext = currentItem->text(0);
+            QString ext;
+            if(currentItem->text(0) == "Other")
+            {
+                ext = ui->ExtensionEdit->text();
+            }
+            else
+            {
+                ext = currentItem->text(0);
+            }
             ext = ext.section("",(ext.indexOf('.')+1),ext.indexOf(')'));
-            QString filepath = "/poop/newfile";
+            QString filepath = ui->LocationEdit->text();
+            QString filename = ui->NameEdit->text();
+            if(!filepath.endsWith('/'))
+                filepath += '/';
+            filepath += filename;
             filepath += ext;
             emit newFileCreated(filepath);
         }
         close();
+}
+
+void NewDialog::getDirectory()
+{
+    QString filepath = QFileDialog::getExistingDirectory(this,"Location to create Project/File",QDir::currentPath());
+    if(filepath != "")
+    {
+        ui->LocationEdit->setText(filepath);
+    }
+}
+
+void NewDialog::open()
+{
+    ui->StackedWidget->setCurrentIndex(0);
+    this->show();
+}
+
+void NewDialog::nextPage()
+{
+    ui->StackedWidget->setCurrentIndex(ui->StackedWidget->currentIndex() > ui->StackedWidget->count() ? (ui->StackedWidget->count() -1) : (ui->StackedWidget->currentIndex() +1));
+}
+
+void NewDialog::prevPage()
+{
+    ui->StackedWidget->setCurrentIndex(ui->StackedWidget->currentIndex() > 0 ? (ui->StackedWidget->currentIndex() -1) : 0);
 }
 
 void NewDialog::selectProject()
@@ -91,7 +131,7 @@ void NewDialog::selectFile()
         case 4:ui->DescripionLabel->setText("Description:\nCreates a new Assembly File with the extension .asm");break;
         case 5:ui->DescripionLabel->setText("Description:\nCreates a new C File with the extension .c");break;
         case 6:ui->DescripionLabel->setText("Description:\nCreates a new C++ File with the extension .cpp");break;
-        case 7:ui->DescripionLabel->setText("Description:\nCreates a new file with a optional user defined\n extension");ui->ExtensionFrame->show();break;
+        case 7:ui->DescripionLabel->setText("Description:\nCreates a new file with an optional user defined\n extension");ui->ExtensionFrame->show();break;
         default: ui->DescripionLabel->setText("Description:");break;
         }
     }
@@ -114,7 +154,7 @@ void NewDialog::setDescription(QTreeWidgetItem *current, QTreeWidgetItem *previo
             case 4:ui->DescripionLabel->setText("Description:\nCreates a new Assembly File with the extension .asm");break;
             case 5:ui->DescripionLabel->setText("Description:\nCreates a new C File with the extension .c");break;
             case 6:ui->DescripionLabel->setText("Description:\nCreates a new C++ File with the extension .cpp");break;
-            case 7:ui->DescripionLabel->setText("Description:\nCreates a new file with a optional user defined\n extension");ui->ExtensionFrame->show();break;
+            case 7:ui->DescripionLabel->setText("Description:\nCreates a new file with an optional user defined\n extension");ui->ExtensionFrame->show();break;
             default: ui->DescripionLabel->setText("Description:");break;
             }
     }

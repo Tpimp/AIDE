@@ -17,13 +17,15 @@ namespace Ui
     class Aide;
 }
 
+
+
 class Aide : public QMainWindow
 {
         Q_OBJECT
 
     public:
         explicit Aide(QWidget *parent = 0);
-        bool addNewProject(ProjectFile * newProject = 0);
+        bool addNewProject(QString name, QString filepath, ProjectFile * newProject = 0);
         bool addFileToProject(int project_index,FileInfo * file);
         ProjectFile * getProject(int project_index);
         void startBuildSystem(QString build_mode);
@@ -45,12 +47,12 @@ class Aide : public QMainWindow
         void writeKnownFileTypes();
         void loadKnownFileTypes();
         void Connections();
-
     public slots:
         void createExisting();
         void createFile(QString filePath);
         void createProject(QString projectPath);
         void readBytes();
+        void saveProject();
         void setDebug();
         void setRun();
         void setClean();

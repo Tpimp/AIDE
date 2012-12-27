@@ -24,6 +24,10 @@ signals:
 
 public slots:
     void create();
+    void getDirectory();
+    void open();
+    void prevPage();
+    void nextPage();
     void selectProject();
     void selectFile();
     void setDescription(QTreeWidgetItem* current,QTreeWidgetItem* previous);
