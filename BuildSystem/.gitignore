@@ -7,3 +7,5 @@ BuildSystem.exe
 qrc_
 qrc_*
 AIDE.exe
+ui_*
+
